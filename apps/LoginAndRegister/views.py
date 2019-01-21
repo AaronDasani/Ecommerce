@@ -58,7 +58,9 @@ def proccess(request):
 def logoff(request):
     del request.session['user_id']
     del request.session["productInfo"]
-    del request.session['product_id']
+    if "product_id" in request.session:
+        del request.session['product_id']
+        
     return redirect(reverse("userLG:login"))
 
 
