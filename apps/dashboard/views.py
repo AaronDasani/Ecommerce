@@ -25,8 +25,7 @@ def dashboard(request):
         }
 
     # those information was used to help the user be able to click on the suggestion product and be able to show the correct information about that specific product. We delete it here becuase we do not need it in this page.
-    if "product" in request.session:
-        del request.session["product"]
+    if "product_id" in request.session:
         del request.session['product_id']
         request.session.modified = True
 
