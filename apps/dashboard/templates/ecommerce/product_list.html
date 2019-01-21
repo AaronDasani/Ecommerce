@@ -1,0 +1,23 @@
+<div class="searchTag mt-3 ml-2">
+    {%for key,value in request.session.productInfo.items%}
+        {%if value != "None"%}
+            <a href="{% url 'dashboard:removeTags' tagKey=key %}" class="rounded bg-dark p-1 text-white">{{value}} <i class="far fa-times-circle"></i></a>
+        {%endif%}
+    {%endfor%}
+</div>
+<div class="productPic">
+    {% for index in product_list %}
+
+    <div class="box">
+        <a href="{%url 'dashboard:product_page' product_id=index.product_id product_brand=index.product_brand%}">
+            <img class="product" src="{{index.product_image}}" alt="product image: {{index.product_brand}}">
+        </a>
+        <div class="overlay">
+            <div class="bg-dark shadow">
+                <h5>${{index.product_price}}</h5>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>

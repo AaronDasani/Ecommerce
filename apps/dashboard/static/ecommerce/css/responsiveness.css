@@ -1,0 +1,112 @@
+
+
+@media screen and (max-width: 1213px) {
+    .leftsection #searchForm button{
+        display: none;
+    }
+    .leftsection #searchForm .col-10, .leftsection #searchForm div .col-11{
+        max-width: 100% !important;
+        flex: none;
+    }
+}
+
+
+@media screen and (max-width: 765px) {
+
+/* The Filter Section in dashboard.html */
+
+    .leftsection{
+        max-width: 100% !important;
+        flex: none;
+    }
+    .leftsection .categoriesList{
+        padding-left: 10px !important;
+        text-align: center !important;
+    }
+    .leftsection .categoriesList li{
+        display: inline-block !important;
+        margin-right: 10px !important;
+        margin-top: 10px;
+        margin-bottom: 0px !important;
+    }
+    .leftsection .categoriesList li a{
+        color: rgb(66, 66, 66) !important;
+    }
+    .leftsection .categoriesList li a:hover{
+        text-decoration: none;
+        color: rgb(224, 224, 224) !important;
+        background-color: rgb(58, 58, 58);
+        padding: 5px;
+        transition-duration: 0.5s;
+        border-radius: 4px;
+    }
+    .FilterHeader{
+        background-color: rgb(44, 44, 44);
+        color: rgb(235, 235, 235);
+        padding: 7px;
+    }
+    .FilterHeader+ ul{
+        margin-left: 10px !important;
+    }
+    #priceRangeForm div{
+        max-width: 50% !important;
+        margin-bottom: 0px !important;
+    }
+    #SearchBrandForm div
+    {
+        max-width: 50% !important;
+        margin-bottom: 0px !important
+    }
+
+    /* Right Section in dashboard.html */
+    .rightsection{
+        max-width: 100% !important;
+        flex: none;
+        margin-left: 0px !important;
+        margin-top: 20px !important;
+
+
+    }
+    .rightsection .productPic{
+        grid-template-columns: repeat(auto-fit,minmax(130px, 1fr)) !important;
+    }
+
+}
+
+
+@media screen and (max-width: 522px) {
+    /* Navbar */
+    nav a{
+        font-size: 12px;
+    }
+   .blog-header div div:last-child a:first-child{
+       margin-right: 10px !important;
+   }
+   .blog-header div div:first-child{
+       max-width: 25% !important;
+   }
+   .blog-header div div:first-child a{
+        padding: 3px 4px !important;
+    }
+
+    /* Proceed to checkout and cart Section */
+    .CheckOutHeader{
+        margin-bottom: 5px !important;
+    }
+    .CheckOutHeader a:last-child{
+        margin-right: 0px !important;
+        font-size: 13px;
+        padding: 5px 5px;
+        
+    }
+    .CheckOutHeader a:first-child i{
+       font-size: 25px;
+    }
+        #itemAmount{
+            font-size: 12px;
+        }
+    
+
+    
+}
+

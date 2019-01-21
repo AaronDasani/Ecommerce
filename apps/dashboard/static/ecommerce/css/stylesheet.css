@@ -1,0 +1,142 @@
+li{
+    list-style: none;
+}
+.blog-header {
+    line-height: 1;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+.blog-header-logo {
+
+font-size: 2.25rem;
+}
+
+.blog-header-logo:hover {
+text-decoration: none;
+}
+.leftsection p button i{
+    font-size: 20px;
+    margin-left: 5px;
+}
+.leftsection p input{
+    width:70px;
+}
+
+#SearchBrandForm button i{
+    margin-top: 5px;
+    font-size: 20px;
+}
+#SearchBrandForm button, #priceRangeForm button,#searchForm button {
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+}
+#priceRangeForm button i{
+    margin-top: 5px;
+    font-size: 20px;
+}
+#searchForm button i{
+    /* margin-top: 5px; */
+    font-size: 15px;
+}
+.searchTag a:hover{
+    background-color: red !important;
+    text-decoration: none;
+}
+
+.productPic{
+    padding: 10px;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fit,minmax(200px, 1fr));
+   
+}
+.productPic img{
+    margin-top: 20px;
+    width: 100%;
+    box-shadow: rgb(61, 61, 61);
+    opacity: 1;
+    display: block;
+    background-size: contain;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.productPic img:hover{
+    transition-duration: 0.4s;
+    padding:2px;
+}
+
+
+/* Overlay on the Image Effect */
+.overlay{
+    transition: .5s ease;
+    opacity: 0;
+    text-align: center;
+}
+.box:hover .product {
+    opacity: 0.7;
+}
+
+.box:hover .overlay {
+    opacity: 1;
+}
+.overlay div{
+    color: white;
+    font-size: 16px;
+    padding: 10px 22px;
+}
+
+/* Item Description Page */
+.itemDescriptionSect p{
+    font-size: 13px;
+}
+.productProfile h4 small{
+    font-size: 14px;
+}
+.SuggestedProductPic div{
+    vertical-align: top;
+}
+.SuggestedProductPic img{
+    width: 100px;
+    height: 100px !important;
+    background-size: cover;
+}
+
+.SuggestedProductPic img:hover{
+    transition-duration: 0.4s;
+    padding:2px;
+}
+.fa-shopping-cart{
+    font-size: 30px;
+}
+#itemAmount {
+    font-size: 15px;
+}
+.CartItems .cartItem:hover{
+    font-weight: bold;
+    text-decoration: none;
+    transition-duration: 0.2s;
+}
+#Cart .modal-body{
+    height: 300px;
+    overflow:scroll;
+}
+#Cart .modal-footer{
+    border-top: 5px solid green;
+}
+
+.thankyouBackG{
+    height: 300px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+}
+.productProfile img{
+
+    width: 100%;
+}

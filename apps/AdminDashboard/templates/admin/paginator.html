@@ -1,0 +1,29 @@
+
+
+<div class="pagination"></div>
+    <span class="step-links">
+        {% if orders.has_previous %}
+            <a href="1" class=" btn btn-outline-info mt-3">First</a>
+            <a href="{{ orders.previous_page_number }}" class=" btn btn-outline-info mt-3">Previous</a>
+        {% endif %}
+
+        {% for num in orders.paginator.page_range  %}
+        
+            {% ifequal orders.number num %}
+                <a href="{{num}}" class=" btn btn-info mt-3">{{num}}</a>
+            
+            {%else%}
+                {% if num > orders.number|add:'-3' and num < orders.number|add:'3' %}
+                    <a href="{{num}}" class=" btn btn-outline-info mt-3">{{num}}</a>
+                {%endif%}
+            {% endifequal %}
+        {% endfor %}
+
+
+        {% if orders.has_next %}
+            <a href="{{ orders.next_page_number }}" class=" btn btn-outline-info mt-3">Next</a>
+            <a href="{{ orders.paginator.num_pages }}"class=" btn btn-outline-info mt-3">Last</a>
+        {% endif %}
+    </span>
+</div>
+    

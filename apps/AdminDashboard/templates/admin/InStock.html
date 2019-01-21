@@ -1,0 +1,308 @@
+{%extends './AdminLayout.html'%}
+
+{%block head%}
+    <title>Products</title>
+    {%load static%}
+    <script src="{%static 'admin/script/adminScript.js'%}"></script>
+{%endblock head%}
+
+
+{%block content%}
+<div class="container mt-5">
+    {% if messages %}
+        <ul class=" list-inline messages text-{{request.session.color}}">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="row mb-4" style="height:40px;">
+        <form id="searchForm" action="{%url 'adminDashboard:searchProduct'%}" method="post" class="mb-4 mt-3 col-9 form-inline">
+                {% csrf_token %}
+                <input class="form-control " type="text"  id="searchProduct" name="searchProduct" placeholder="Search.." aria-label="Search">
+        </form>
+        <a class="btn btn-primary col-2 ml-5 shadow" data-toggle="modal" data-target="#addProduct"><i class="fas fa-plus-circle"></i> Add Product</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Picture</th>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Inventory Count</th>
+                <th scope="col">Quantity Sold</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody id="stocks">
+                {% for index in Products %}
+                <tr>
+                    <td><img src="{{index.upload.url}}" alt="product image" width="100" ></td>
+                    <td>{{index.id}}</td>
+                    <td>{{index.itemName}}</td>
+                    <td>{{index.inventory.inventory}}</td>
+                    <td>{{index.inventory.quantitySold}}</td>
+                    <td>
+                        <a data-editproductid='{{index.id}}' data-toggle="modal" data-target="#EditProduct" class="btn btn-warning btn-sm editBTN"><i class="fas fa-edit"></i> Edit</a>
+                        <a  data-productid='{{index.id}}' data-toggle="modal" data-target="#DeleteProduct" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</a>
+                    </td>
+        
+                    </tr>
+                {% endfor %}
+            
+            </tbody>
+        </table>
+
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if orders.has_previous %}
+                <a href="?page=1" class=" btn btn-outline-info mt-3">First</a>
+                <a href="?page={{ orders.previous_page_number }}" class=" btn btn-outline-info mt-3">Previous</a>
+            {% endif %}
+
+            {% for num in orders.paginator.page_range  %}
+            
+                {% ifequal orders.number num %}
+                    <a href="?page={{num}}" class=" btn btn-info mt-3">{{num}}</a>
+                
+                {%else%}
+                    {% if num > orders.number|add:'-3' and num < orders.number|add:'3' %}
+                        <a href="?page={{num}}" class=" btn btn-outline-info mt-3">{{num}}</a>
+                    {%endif%}
+                {% endifequal %}
+            {% endfor %}
+
+    
+            {% if orders.has_next %}
+                <a href="?page={{ orders.next_page_number }}" class=" btn btn-outline-info mt-3">Next</a>
+                <a href="?page={{ orders.paginator.num_pages }}"class=" btn btn-outline-info mt-3">Last</a>
+            {% endif %}
+        </span>
+    </div>
+
+     <!-- Modal -->
+     <div class="modal fade " id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <div class="modalHeader text-center">
+                        <h5>Add New Product</h5>
+                    </div>
+                    <button type="button" class="close closebutton ml-1" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-outline-danger p-1 mr-3 displayPD">Product Details</button>
+                    <button class="btn btn-outline-danger p-1 ml-3 ">Inventory Details</button>
+                </div>
+                <form id="createProductForm " action="{%url 'adminDashboard:create'%}" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        
+                        {% csrf_token %}
+                        <div class="productDetails">
+                            <div class="form-group">
+                                <label for="brand">Product brand:</label>
+                                <input type="text" class="form-control" id="brand" name="brand" placeholder="Enter brand">
+                                <small id="brand" class="form-text text-muted">Provide a valid Product brand.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Product Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+                                <small id="name" class="form-text text-muted">Provide a valid Product name.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Decription</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter Decription"></textarea>
+                                <small id="description" class="form-text text-muted">Give as much details as you can!!</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Product price:</label>
+                                <input type="number" class="form-control" id="price" name="price" placeholder="$0">
+                            </div>
+                            <input type="file" name="image" id="real-file" hidden="hidden"/>
+                            <button type="button" class="btn btn-sm btn-info p-2 d-block mt-4" id="custom-button">Choose Image</button>
+                            <div class=" mt-2 font-weight-light ml-3 d-block pb-3 ImageName"> 
+                                <span id="custom-text"> No image Chosen yet !</span>
+                                
+                                <a href="#" class="ml-3 delBtn"> <i class="fas fa-trash-alt d-inline-block"></i></a>
+                                
+                            </div>
+                        </div>
+                        <div class="InventoryDetails">
+                            <div class="form-group">
+                                <label for="category">Categories</label>
+                                <select class="form-control custom-select" id="category" name="category">
+
+                                    <option  selected value="">Choose category</option>
+                                {% for index in category %}
+                                    
+                                    <option value="{{index.category}}">{{index.category}}</option>
+                                    
+                                {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group ml-2">
+                                <small><label for="addNewCategory">Add new Category:</label></small>
+                                <input type="text" class="form-control" id="addNewCategory" name="addNewCategory" placeholder="Enter Category">
+                            </div>
+                            <div class="form-group">
+                                <label for="Inventory">Product Inventory:</label>
+                                <input type="number" class="form-control" id="Inventory" name="inventory" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="sold">Amount Sold:</label>
+                                <input type="number" class="form-control" id="sold" name="sold" value="0" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Add Product</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    {% comment %} A Delete Modal {% endcomment %}
+    <!-- Modal -->
+    <div class="modal fade" id="DeleteProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header ">
+                        <div class="modalHeader text-center">
+                            <h5>Delete Product</h5>
+                        </div>
+                        <button type="button" class="close closebutton ml-1" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                       
+                    </div>
+                    <form id="deleteProduct" action="{%url 'adminDashboard:delete'%}" method="post">
+                        <div class="modal-body">
+                            {% csrf_token %}
+
+                            <p class="ml-3 font-weight-light">Are you sure you want to delete this Product?</p>
+                            <input type="hidden" name="product_id" class="product_id" value="">
+                
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger" >Delete</button>
+                        </div>
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+</div>
+{% comment %} Edit Product {% endcomment %}
+<!-- Modal -->
+<div class="modal fade" id="EditProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header ">
+                    <div class="modalHeader text-center">
+                        <h5>Edit Product</h5>
+                    </div>
+                    <button type="button" class="close closebutton ml-1" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    
+                </div>
+                <div class="text-center mt-4">
+                    <button  class="btn btn-outline-info p-1 mr-3 displayPD">Product Details</button>
+                    <button class="btn btn-outline-info p-1 ml-3 ">Inventory Details</button>
+                </div>
+               
+                <form id="EditProductForm" action="{%url 'adminDashboard:edit'%}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="modal-body" id="editInfo"></div>
+                    
+
+                    <input type="hidden" name="product_id" class="edit_product_id" value="">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info" >Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#searchForm').keyup(function(e) {
+        e.preventDefault()
+        $.ajax({
+            method: "POST",
+            url: $("#searchForm").attr("action"),
+            data: $('#searchForm').serialize(),
+            success: function(response) {
+            console.log('received response:', response);
+                
+            $("#stocks").html(response)
+        }
+
+        });
+
+    });
+
+     //delete product
+    $("#deleteProduct").submit(function(e){
+        e.preventDefault();
+       submitFormData($("#deleteProduct").serialize(),$("#deleteProduct").attr("action"));
+       
+    });
+    function submitFormData(data,url){
+        $.ajax({
+            method:"POST",
+            data:data,
+            url:url,
+            success:function(response){
+                console.log('received response:', response);
+                $("#stocks").html(response)
+                $('.closebutton').click();
+
+                
+            }
+        });
+    }
+    $(".editBTN").click(function(){
+        console.log("clicked")
+        $.ajax({ 
+            method:"GET",
+            data:{
+                product_id:$(this).data("editproductid")
+            },
+            url:"{%url 'adminDashboard:fetchProductInfo'%}",
+            success:function(response){
+                console.log('received response:', response);
+                $("#editInfo").html(response)
+                const editrealFileBtn=document.getElementById("editreal-file");
+                const editcustomButton=document.getElementById("editcustom-button");
+                const editcustomText=document.getElementById("editcustom-text");
+            
+                editcustomButton.addEventListener("click",function(){
+                    editrealFileBtn.click();
+            
+                });
+                editrealFileBtn.addEventListener("change",function(){
+                    if (editrealFileBtn.value) {
+                        editcustomText.innerHTML=editrealFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+            
+                    }
+                    else{
+                        editcustomText.innerHTML="No image Chosen yet !"
+                    }
+                })
+            }
+            
+        });
+       
+    
+    });
+</script>
+{%endblock content%}

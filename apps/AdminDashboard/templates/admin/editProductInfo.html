@@ -1,0 +1,92 @@
+
+
+
+
+<div class="productDetails">
+        <div class="form-group">
+            <label for="brand">Product brand:</label>
+            <input type="text" class="form-control" id="brand" name="brand" value="{{product.brand}}">
+            <small id="brand" class="form-text text-muted">Provide a valid Product brand.</small>
+        </div>
+        <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{product.itemName}}">
+            <small id="name" class="form-text text-muted">Provide a valid Product name.</small>
+        </div>
+        <div class="form-group ">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" value="{{product.description}}">{{product.description}}</textarea>
+            <small id="description" class="form-text text-muted "></small>
+        </div>
+        <div class="form-group ">
+            <label for="price">Product price:</label>
+            <input type="number" class="form-control" id="price" name="price" value="{{product.price|floatformat}}">
+        </div>
+        <input type="file" name="image" id="editreal-file" hidden="hidden"/>
+        <button type="button" class="btn btn-sm btn-info p-2 d-block mt-4" id="editcustom-button">Choose Image</button>
+        <div class=" mt-2 font-weight-light ml-3 d-block pb-3 ImageName"> 
+            <a id="editcustom-text" href="..{{product.upload.url}}"> {{product.upload.url}}</a>
+            
+            <a href="#" class="ml-3 delBtn"> <i class="fas fa-trash-alt d-inline-block"></i></a>
+            
+        </div>
+</div>
+<div class="InventoryDetails">
+    <div class="form-group">
+        <label for="category">Categories</label>
+        <select class="form-control custom-select" id="category" name="category">
+            {% if product.inventory.category %}
+                <option selected value="{{product.inventory.category.category}}">{{product.inventory.category.category}}</option>
+            {% else %}
+                <option selected value="">Choose category</option>
+            {% endif %}
+                <option  value="">Choose category</option>
+            {% for index in category %}
+                {% ifnotequal index.category product.inventory.category.category %}
+                <option value="{{index.category}}">{{index.category}} </option>
+                
+                {% endifnotequal %}
+               
+                
+            {% endfor %}
+            
+        </select>
+    </div>
+    <div class="form-group ml-2">
+        <small><label for="addNewCategory">Add new Category:</label></small>
+        <input type="text" class="form-control" id="addNewCategory" name="addNewCategory" placeholder="Enter New Category">
+    </div>
+    <div class="form-group">
+        <label for="Inventory">Product Inventory:</label>
+        <input type="number" class="form-control" id="Inventory" name="inventory" value="{{product.inventory.inventory}}">
+    </div>
+    <div class="form-group">
+        <label for="sold">Amount Sold:</label>
+        <input type="number" class="form-control" id="sold" name="sold" value="{{product.inventory.quantitySold}}">
+    </div>
+    <input type="hidden" name="editForm" value="editing">
+</div>
+
+
+
+
+
+<script>
+    $(".InventoryDetails").hide();
+    $(".displayPD").click(function(){
+        $(".InventoryDetails").hide();
+        $(".productDetails").show('slow');
+    })
+    $(".displayPD+button").click(function(){
+        $(".InventoryDetails").show('slow');
+        $(".productDetails").hide();
+    })
+    $(".ImageName .delBtn").hide();
+    $( ".ImageName" ).hover(function() {
+        $(".ImageName .delBtn").show()
+    },function(){
+        $(".ImageName .delBtn").hide()
+    })
+
+   
+</script>

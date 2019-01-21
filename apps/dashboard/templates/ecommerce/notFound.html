@@ -1,0 +1,9 @@
+
+<div class="searchTag mt-3 ml-2">
+    {%for key,value in request.session.productInfo.items%}
+        {%if value != "None"%}
+            <a href="{% url 'dashboard:removeTags' tagKey=key %}" class="rounded bg-dark p-1 text-white">{{value}} <i class="far fa-times-circle"></i></a>
+        {%endif%}
+    {%endfor%}
+</div>
+<h4 class='text-center text-white bg-dark p-3 mt-5 shadow'>Items Not Found!!</h4>

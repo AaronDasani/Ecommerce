@@ -1,0 +1,16 @@
+
+
+{% for item in itemsInCart %}
+    <div>
+        <div class="d-inline-block col-9">
+            <small class="badge badge-secondary badge-pill mr-2">{{item.quantity}}</small>
+            <h6 class="font-weight-light mb-0 d-inline-block"><a href="{%url 'dashboard:product_page' product_id=item.product_id product_brand=item.brand%}" class="text-dark cartItem">{{item.itemName}}</a></h6>
+            <small class="text-muted ml-1 mt-0"> by {{item.brand}}</small>
+        </div>
+        <div class="d-inline-block">
+            <h6 class="d-inline">${{item.price}}</h6>
+            <a href="{% url 'dashboard:deleteCartItem' itemId=item.id%}" class="btn btn-sm btn-outline-danger ml-2 deleteItem" ><i class="far fa-trash-alt"></i></a>
+        </div>
+        <hr>
+    </div>
+{% endfor %}

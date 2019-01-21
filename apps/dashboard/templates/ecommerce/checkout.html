@@ -1,0 +1,157 @@
+{%extends 'ecommerce/layout.html'%}
+
+{%block content%}
+    <title>Checkout</title>
+    {%load static%}
+<div class="container">
+    <div class="mb-3">
+        {% if 'product_id' not in request.session %}
+            <a href="{%url 'dashboard:dashboard' %}" class="btn btn-primary">Back</a>
+        {% else %}
+            <a href="{%url 'dashboard:product_page' product_id=request.session.product_id product_brand=request.session.productInfo.brand%}" class="btn btn-primary">Back</a>
+        {% endif %}
+        
+    </div>
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="{%static 'ecommerce/images/codingdojo.jpg'%}" alt="" width="72" height="72">
+        <h2>Thanks for Shopping</h2>
+        <p class="lead">Below is an example of a checkout form. Please do not put your real card information.This is just a personal project. So... it is a dummy form</p>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+                <span class="badge badge-secondary badge-pill">{{totalItems}}</span>
+            </h4>
+            <ul class="list-group mb-3">
+                
+                {% for index in products %}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div class="">
+                            <h6 class="my-0 font-weight-light">{{index.itemName}} x {{index.quantity}}</h6>
+                        </div>
+                        <span class="text-muted ml-5">${{index.price}}</span>
+                    </li>
+                {% endfor %}
+                
+                
+                <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="text-success">
+                    <h6 class="my-0">Special Discount</h6>
+                    <small>Happy Holiday</small>
+                </div>
+                <span class="text-success">-${{discount}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                <span>Total (USD)</span>
+                <strong>${{totalCost}}</strong>
+                </li>
+            </ul>
+
+        </div>
+        <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">Billing address</h4>
+        <form action="{%url 'dashboard:payementProcess'%}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">First name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" >
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Last name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" >
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email">Email <span class="text-muted">(Required)</span></label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+            </div>
+
+            <div class="mb-3">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" >
+            </div>
+
+            <div class="mb-3">
+                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment or suite">
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 mb-3">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" id="country" name="country" placeholder="country">
+
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="zip">Zip Code</label>
+                    <input type="text" class="form-control" id="zip" name='zip' placeholder="" >
+                    
+                </div>
+            </div>
+            <hr class="mb-4">
+
+            <h4 class="mb-3">Payment</h4>
+
+            <div class="d-block my-3">
+                <div class="custom-control custom-radio">
+                    <input id="credit" name="paymentMethod" value="credit" type="radio" class="custom-control-input" checked >
+                    <label class="custom-control-label" for="credit">Credit card</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input id="debit" name="paymentMethod" value="debit" type="radio" class="custom-control-input" >
+                    <label class="custom-control-label" for="debit">Debit card</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input id="paypal" name="paymentMethod"  value="paypal" type="radio" class="custom-control-input" >
+                    <label class="custom-control-label" for="paypal">PayPal</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="cc-name">Name on card</label>
+                    <input type="text" class="form-control" id="cc-name" name="card_name" placeholder="" >
+                    <small class="text-muted">Full name as displayed on card</small>
+                    
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="cc-number">Credit card number</label>
+                    <input type="text" class="form-control" id="cc-number" name="credit_card" placeholder="" >
+                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="cc-expiration">Expiration</label>
+                    <input type="text" class="form-control" id="cc-expiration" name="expiration" placeholder="" >
+                    
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="cc-cvv">CVV</label>
+                    <input type="text" class="form-control" id="cc-cvv" name="cvv" placeholder="" >
+                </div>
+            </div>
+            <hr class="mb-4">
+            <input type="hidden" name="totalCost"  value="{{totalCost}}">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Checkout</button>
+        </form>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 Company Name</p>
+        <ul class="list-inline">
+        <li class="list-inline-item"><a href="#">Privacy</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+
+  
+
+
+{%endblock content%}

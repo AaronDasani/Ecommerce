@@ -1,0 +1,118 @@
+{%extends "ecommerce/layout.html"%}
+
+
+
+{%block content%}
+
+    <div class="container pb-5">
+        <div class="row">
+            <div class="text-left col-8">
+                <a href="{%url 'dashboard:dashboard'%}" class="btn btn-dark btn-sm"> Go Back</a>
+            </div>
+            <div class="col-4 text-right">
+                <a class="cartButton" href="{%url 'dashboard:lookAtCart'%}" data-toggle="modal" data-target="#Cart"><h6 class="d-inline badge badge-secondary badge-pill " id="itemAmount">{{itemsInCart|length}}</h6> <i class="fas fa-shopping-cart"></i></a>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <section class="col-4 productProfile">
+                <h4>{{product_list.product_name}} <small class="font-weight-light text-muted"> by {{product_list.product_brand}}</small></h4>
+                <hr>
+                <img src="{{product_list.product_image}}"alt="product image">
+                
+            </section>
+
+            <section class="col-7 ml-3 itemDescriptionSect">
+                <h3 class="text-center font-weight-light">Item Description</h3>
+                <hr>
+                <div class="mb-5">
+                    <h6 class="bg-dark p-3 text-white">Price: <span class="text-warning">${{product_list.product_price}}</span></h6>
+                    <p class="font-weight-light mt-3 ml-3">{{product_list.product_description}}</p>
+                    
+                        
+                </div>
+                <div class="ml-2 mb-5">
+                    <form id="addToCartForm" action="{%url 'dashboard:add_to_cart'%}" method="post">
+                        {% csrf_token %}
+                        <select name="quantity" class="ml-3">
+
+                            <option value="1">1(${{product_list.product_price}})</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                
+                        </select>
+                        <input type="hidden" name="price" value="{{product_list.product_price}}">
+                        <input type="hidden" name="brand" value="{{product_list.product_brand}}">
+                        <input type="hidden" name="productName" value="{{product_list.product_name}}">
+                        <button type="submit" class="btn btn-sm btn-dark ml-2">Add To Cart</button>
+                            
+                    </form>
+                    
+                </div>
+                <hr>
+                <h4>Customers who viewed this item also viewed</h4>
+
+                <div class="SuggestedProductPic">
+                    {% for index in suggested_product %}
+                        <div class="d-inline-block">
+                            <a href="{%url 'dashboard:product_page' product_id=index.product_id product_brand=index.product_brand%}" class="mr-2 ">
+                                <img  src="{{index.product_image}}" alt="product image" class="shadow mb-2">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+            </section>
+            <a href="{%url 'dashboard:checkout'%}" class="btn btn-success mt-5 d-block col-11 p-3 font-weight-light"> Proceed To Checkout</a>
+            
+        </div>
+        <footer class="text-center bg-light p-3 col-11 mt-5">
+            <p>MAAD &copy; 2018</p>
+        </footer>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <div class="modalHeader text-center">
+                        <h5>Cart Items <i class="fas fa-cart-arrow-down"></i></h5>
+                    </div>
+                    <button type="button" class="close closebutton ml-1" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="CartItems"></div>
+                    
+                </div>
+                <div class="modal-footer bg-dark">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Continue Shopping</button>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#addToCartForm").submit(function(e){
+            e.preventDefault();
+            console.log("add to cart button clicked")
+
+            $.ajax({
+                method: "POST",
+                url: $('#addToCartForm').attr('action'),
+                data: $('#addToCartForm').serialize(),
+                success: function(response){
+                    console.log("response is: ", response['numberOfItems'])
+                    $('#itemAmount').html(response['numberOfItems'])
+                }
+                });
+            
+        })
+       
+    </script>
+
+{%endblock content%}

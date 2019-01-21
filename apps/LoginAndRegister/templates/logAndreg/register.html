@@ -1,0 +1,102 @@
+<title>Registration</title>
+{% extends "logAndreg/layout.html" %}
+
+{%block head%}
+
+{% load static %}
+
+{%endblock head%}
+
+{%block content%}
+
+    <body class="text-dark RegBackgroundIMG" style="background-image: url('{%static "logAndreg/image/dojo.jpeg"%}');">
+        <div class="container regForm">
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4 rounded" src="{%static 'logAndreg/image/MaadIcon.jpg'%}" alt="" width="100" height="100">
+                <h2>Registration form</h2>
+                <p class="lead">Upcoming Promotions in May. 20% off on all clothes. Be sure to stay in touch</p>
+            </div>
+
+
+            <div class=" order-md-1 ">
+                <h4 class="mb-3">Your Information</h4>
+                {% if messages %}
+                    <ul class=" list-inline messages text-danger">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+                <form class="needs-validation" action="{%url 'userLG:create'%}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName">First name</label>
+
+                            {%if request.session.tempUserData.firstname%}
+                                <input type="text" class="form-control " id="firstName" name="firstname" value={{request.session.tempUserData.firstname}}>
+
+                            {%else%}
+                                <input type="text" class="form-control " id="firstName" name="firstname" value="" placeholder="Enter first name">
+                            {%endif%}
+        
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName">Last name</label>
+                            {%if request.session.tempUserData.lastname%}
+                                <input type="text" class="form-control" id="lastName" name="lastname" value={{request.session.tempUserData.lastname}}>
+
+                            {%else%}
+                                <input type="text" class="form-control" id="lastName" name="lastname" placeholder="Enter last name">
+                            {%endif%}
+
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+
+                        {%if request.session.tempUserData.email%}
+                            <input type="text" class="form-control" name="email" id="email" value={{request.session.tempUserData.email}} placeholder="you@example.com">
+
+                        {%else%}
+                            <input type="text" class="form-control" name="email" id="email" placeholder="you@example.com">
+                        {%endif%}
+
+                        
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="birthday">Birthday</label>
+                        <input type="text" id="birthday" name="birthday"  class="form-control" value="" placeholder="Birthday: YYYY-MM-DD" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="password">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" name="confirmpassword" id="confirmPassword" placeholder="confirm password">
+                    </div>
+
+                    <hr class="mb-4">
+                    <button class="btn btn-success btn-lg btn-block" type="submit">Register</button>
+
+                </form>
+                <small>Already have an Account? <span><a href="{%url 'userLG:login'%}">Login Here</a></span></small>
+            </div>
+                <!-- FOOTER -->
+            <footer class="my-5 pt-5 text-muted text-center text-small regFooter">
+                <p class="mb-1">&copy; 2017-2019 MAAD</p>
+                <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+            </footer>
+        </div>
+        
+    </body>
+{%endblock content%}
+</html>

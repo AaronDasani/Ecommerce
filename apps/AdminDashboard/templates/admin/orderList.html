@@ -1,0 +1,74 @@
+
+<div class="table-responsive">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Date</th>
+                <th scope="col">Billing Address</th>
+                <th scope="col">Total</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for index in orders %}
+                <tr>
+                    <th scope="row"><a href="{%url 'adminDashboard:viewProduct' order_id=index.order_id%}">{{index.order_id}}</a></th>
+                    <td>{{index.user.first_name}} {{index.user.last_name}}</td>
+                    <td>{{index.created_at}}</td>
+                    <td>20640 65th Dr SE Seattle</td>
+                    <td>${{index.totalCost}}</td>
+                    <td>
+                        <select class="custom-select OrderStatus">
+                            {%if index.OrderStatus in "Order In"%}
+                                <option value="orderIn",data-orderId="{{index.order_id}}" selected >Order In</option>
+                                <option  value="shipped", data-orderId="{{index.order_id}}">Shipped</option>
+                                <option value="cancel",data-orderId="{{index.order_id}}">Cancelled</option>
+                            {%endif%}
+                            {%if index.OrderStatus in "shipped"%}
+                                <option value="orderIn",data-orderId="{{index.order_id}}">Order In</option>
+                                <option  value="shipped", data-orderId="{{index.order_id}}" selected >Shipped</option>
+                                <option value="cancel",data-orderId="{{index.order_id}}">Cancelled</option>
+                            {%endif%}
+                            {%if index.OrderStatus in "cancel"%}
+                                <option value="orderIn",data-orderId="{{index.order_id}}" >Order In</option>
+                                <option  value="shipped", data-orderId="{{index.order_id}}">Shipped</option>
+                                <option value="cancel",data-orderId="{{index.order_id}}" selected>Cancelled</option>
+                            {%endif%}
+                        </select>
+                    </td>
+                </tr>
+            {% endfor %}
+        
+        </tbody>
+    </table>
+
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if orders.has_previous %}
+            <a href="?page=1" class=" btn btn-outline-dark mt-3">First</a>
+            <a href="?page={{ orders.previous_page_number }}" class=" btn btn-outline-dark mt-3">Previous</a>
+        {% endif %}
+
+        {% for num in orders.paginator.page_range  %}
+        
+            {% ifequal orders.number num %}
+                <a href="?page={{num}}" class=" btn btn-info mt-3">{{num}}</a>
+            
+            {%else%}
+                {% if num > orders.number|add:'-3' and num < orders.number|add:'3' %}
+                    <a href="?page={{num}}" class=" btn btn-outline-info mt-3">{{num}}</a>
+                {%endif%}
+            {% endifequal %}
+        {% endfor %}
+
+
+        {% if orders.has_next %}
+            <a href="?page={{ orders.next_page_number }}" class=" btn btn-outline-dark mt-3">Next</a>
+            <a href="?page={{ orders.paginator.num_pages }}"class=" btn btn-outline-dark mt-3">Last</a>
+        {% endif %}
+    </span>
+</div>

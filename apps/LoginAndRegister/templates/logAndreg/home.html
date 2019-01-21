@@ -1,0 +1,24 @@
+<title>Home</title>
+
+{% extends "logAndreg/layout.html" %}
+    {%load static %}
+
+{%block content%}
+
+    <main role="main ">
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron backgroundIMG text-white" style="background-image:url({%static 'logAndreg/image/city.jpg'%});">
+            <div class="container homeText">
+                <h1 class="display-3 mt-2">Shop Smart</h1>
+                <p> A faster and better way to purchase clothes for your family</p>
+                <p><a class="btn btn-success btn-lg signup" href="{%url 'userLG:registration'%}" role="button">Sign Up &raquo;</a></p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center">
+    <p>&copy; MAAD Company 2017-2019</p>
+    </footer>
+
+{%endblock content%}

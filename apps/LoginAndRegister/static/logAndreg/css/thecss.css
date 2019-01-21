@@ -1,0 +1,150 @@
+
+
+.backgroundIMG{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* background:fixed; */
+    background-attachment:fixed;
+
+}
+.RegBackgroundIMG{
+    background-size: cover;
+    background-position: center;
+    background-attachment:fixed;
+    background-repeat: no-repeat;
+
+
+}
+
+.jumbotron{
+    height: 100%;
+    padding-bottom: 70px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+.loginBG{
+    height: 70%;
+}
+nav{
+    border-bottom: 1px solid white;
+}
+
+        
+.header{
+    display: inline-block;
+    width: 540px;
+    vertical-align: top;
+}
+.formss{
+    display: inline-block;
+}
+
+.regForm{
+    width: 80%;
+}
+
+@media screen and (min-width: 1500px) {
+    body {
+        background-color: rgb(34, 34, 34);
+    }
+
+    body{
+        width: 70% !important;
+        padding-left: 600px !important;
+    }
+}
+
+@media screen and (max-width: 1190px) {
+    body {
+        background-color: rgb(34, 34, 34);
+    }
+    .header{
+        width: 45%;
+    }
+
+  
+}
+
+
+@media screen and (max-width: 600px) {
+    body {
+        background-color: rgb(34, 34, 34);
+    }
+    /* Home Page */
+   .logIn{
+      max-width: 35%;
+      flex: 0 0 35%
+   }
+   .brand{
+       max-width: 65%;
+       flex: 0 0 65%
+   }
+   .navbar-brand{
+       font-size: 1rem ;
+   }
+
+    .backgroundIMG{
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: initial;
+    }
+    .homeText{
+        font-size: 0.8rem;
+    }
+    .display-3{
+        font-size: 2rem;
+    }
+
+    footer{
+        color: rgb(231, 231, 231);
+        font-size: 0.6rem;
+    }
+    /* register */
+    .regFooter{
+        font-size: 1rem;
+    }
+    /* login Page */
+    .header{
+        min-width: 100% !important;
+    }
+    .formss{
+        display: block !important;
+        margin-left: 0px !important;
+        margin-top: 15px;
+        min-width: 100% !important;
+       
+    }
+    .formss small{
+        color: black !important;
+    }
+    .jumbotron{
+        height: 600px;
+    }
+}
+@media screen and (max-width: 330px) {
+   .brand,.navbar-brand,.logIn {
+       font-size: 0.7rem !important;
+   }
+
+    .homeText{
+        font-size: 0.5rem;
+    }
+    .display-3{
+        font-size: 1.5rem;
+    }
+    .btn-lg{
+        font-size: 0.3rem;
+    }
+    footer{
+        color: rgb(231, 231, 231) !important;
+        font-size: 0.4rem !important;
+    }
+    /* register */
+    .regFooter{
+        font-size: 1rem;
+    }
+}

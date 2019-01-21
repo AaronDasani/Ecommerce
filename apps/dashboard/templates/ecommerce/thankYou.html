@@ -1,0 +1,24 @@
+{%extends 'ecommerce/layout.html'%}
+
+{%block head%}
+    <title>Thank You</title>
+
+{%endblock head%}
+
+{%block content%}
+    {%load static%}
+    <div class="container mt-5">
+        <div class=" p-3 mb-4 shadow border border-warning thankyouBackG" style="background-image:url('{%static 'ecommerce/images/whiteBackground.jpg'%}');">
+            <h2 class="text-center text-secondary">Tansaction Completed!!</h2>
+            <hr>
+            <h2 class="mt-3 ml-3 font-weight-light">Thank You {{user}}</h2>
+        </div>
+
+        <a href="{%url 'dashboard:dashboard'%}" class="btn btn-warning d-block p-3 font-weight-light shadow">Continue the Shopping Spreeee</a>
+    </div>
+    
+
+
+
+
+{%endblock content%}

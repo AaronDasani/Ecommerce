@@ -1,0 +1,86 @@
+{%extends './AdminLayout.html'%}
+
+{%block head%}
+    <title>Order Details</title>
+{%endblock head%}
+
+
+{%block content%}
+
+<body class="bg-light">
+    
+
+    <div class="container mt-5">
+        <a href="{%url 'adminDashboard:admin' %}" class="btn btn-dark mb-4 shadow">Back</a>
+        <div class="row">
+            <div class="OrderDetails shadow bg-light mr-3 col-4">
+                <h6 class="mb-4 mt-3">Order ID: {{order.order_id}}</h6>
+                <small>Customer Shipping info:</small>
+                <ul class="pl-2">
+                    <li class="font-weight-light list-inline">Name: {{order.user.first_name}} {{order.user.last_name}}</li>
+                    <li class="font-weight-light list-inline">Email: {{order.user.email}}</li>
+                </ul>
+                <hr>
+                <small class="mt-3 d-block">Customer Billing info:</small>
+                <ul class="pl-2">
+                    <li class="font-weight-light list-inline">Name: {{order.user.first_name}} {{order.user.last_name}}</li>
+                    <li class="font-weight-light list-inline">Email: {{order.user.email}}</li>
+                </ul>
+            </div>
+
+            <div class="orderProducts col-6 ml-4">
+                <div class="table-responsive">
+                    <table class="table table-hover shadow-sm">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for index in products %}
+                                <tr>
+                                    <th scope="row">{{index.id}}</th>
+                                    <td>{{index.itemName}}</td>
+                                    <td>{{index.price}}</td>
+                                    <td>{{index.quantity}}</td>
+                                    <td class="font-weight-bold">{{index.totalCost}}</td>
+                                </tr>
+                               
+                            {% endfor %}
+                           
+                        </tbody>
+                    </table>
+                </div>
+                <div class=" status pl-3 mt-5">
+                    {%if order.OrderStatus in "Order In" %}
+                        <h6 class="bg-primary p-2 col-5 border border-dark shadow">Status: {{order.OrderStatus}}</h6>
+                    {%endif%}
+                    {%if order.OrderStatus in "shipped" %}
+                        <h6 class="bg-success p-2 col-5 border border-dark shadow">Status: {{order.OrderStatus}}</h6>
+                    {%endif%}
+                    {%if order.OrderStatus in "cancel" %}
+                        <h6 class="bg-danger p-2 col-5 border border-dark shadow">Status: {{order.OrderStatus}}</h6>
+                    {%endif%}
+                    
+                    
+                    <div class="p-3 col-5 ml-3 font-weight-light border border-dark shadow">
+                        <p>Sub total: ${{subCost}}</p>
+                        <p>Shipping:  <span class="text-success">FREE</span> </p>
+                        <p>Holiday Discount:  <span class="text-danger">-${{discount}}</span> </p>
+                        <p class="font-weight-bold">Total Price: ${{totalCost}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+{%endblock content%}
