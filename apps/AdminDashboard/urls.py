@@ -18,7 +18,7 @@ urlpatterns=[
     url(r'^fetchProductInfo/$',views.fetchProductInfo, name='fetchProductInfo'),
     url(r'^changingProductStatus/$',views.changingProductStatus, name='changingProductStatus'),
 
-    url(r'^change_paged/$',views.ajax_pagination, name='ajax_pagination')
+    # url(r'^change_paged/$',views.ajax_pagination, name='ajax_pagination')
  
 
 ]

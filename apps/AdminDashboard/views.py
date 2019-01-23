@@ -29,15 +29,18 @@ def admin(request):
 
 # the pagination works on Django 2.1 and above
 
-    paginator = Paginator(orders_list, 3) 
-    page = request.GET.get('page')
-    orders = paginator.get_page(page)
+    # paginator = Paginator(orders_list, 3) 
+    # page = request.GET.get('page')
+    # orders = paginator.get_page(page)
  
+    # context={
+    #     'orders':orders,
+    #     'user':current_user
+    # }
     context={
-        'orders':orders,
+        'orders':orders_list,
         'user':current_user
     }
-
 
     return render(request, "admin/adminDashboard.html",context)
 
@@ -46,17 +49,21 @@ def searchOrders(request):
 
     orders=Order.objects.raw("Select * from dashboard_order group by order_id")
     MatchOrder=[]
-    page = request.GET.get('page')
+    # page = request.GET.get('page')
 
     for index in orders:
         if((request.POST['searchOrder']).lower() in (index.user.first_name).lower()):
             MatchOrder.append(index)
 
-    paginator = Paginator(MatchOrder, 3) # Show speficy amount orders per page
-    orders = paginator.get_page(page)
+# the pagination works on Django 2.1 and above
+    # paginator = Paginator(MatchOrder, 3) # Show speficy amount orders per page
+    # orders = paginator.get_page(page)
+
+    # if len(MatchOrder)>0:
+    #     return render(request,"admin/orderList.html",{'orders':orders})
 
     if len(MatchOrder)>0:
-        return render(request,"admin/orderList.html",{'orders':orders})
+        return render(request,"admin/orderList.html",{'orders':MatchOrder})
 
     else:
         try:
@@ -65,13 +72,14 @@ def searchOrders(request):
                 if((request.POST['searchOrder']).lower() in (index.order_id).lower()):
                     MatchOrder.append(index)
 
-            paginator = Paginator(MatchOrder, 3) # Show speficy amount orders per page
-            orders = paginator.get_page(page)
+            # paginator = Paginator(MatchOrder, 3) # Show speficy amount orders per page
+            # orders = paginator.get_page(page)
             
-            if orders[0] is None:
+            # If using Pagination with Djnago 2.1 and above change the MatchOrder below to orders
+            if MatchOrder[0] is None:
                 return HttpResponse("<h4 class='font-weight-light bg-danger text-white mt-3 p-3 ml-5'>No Product Found !!</h4>")
 
-            return render(request,"admin/orderList.html",{'orders':orders})
+            return render(request,"admin/orderList.html",{'orders':MatchOrder})
 
         except:
             return HttpResponse("<h4 class='font-weight-light bg-danger text-white mt-3 p-3 ml-5'>No Product Found !!</h4>")
@@ -190,12 +198,13 @@ def searchProduct(request):
             
     return render(request,"admin/inStockProduct.html",{'Products':products})
 
-def ajax_pagination(request):
+    
+# def ajax_pagination(request):
 
-    orders_list=Order.objects.raw("SELECT * FROM dashboard_order GROUP BY order_id ")
-    paginator = Paginator(orders_list, 2)
+#     orders_list=Order.objects.raw("SELECT * FROM dashboard_order GROUP BY order_id ")
+#     paginator = Paginator(orders_list, 2)
 
-    orders = paginator.get_page(request.GET['page'])
+#     orders = paginator.get_page(request.GET['page'])
 
-    return render(request,"admin/orderList.html",{'orders':orders})
+#     return render(request,"admin/orderList.html",{'orders':orders})
   
