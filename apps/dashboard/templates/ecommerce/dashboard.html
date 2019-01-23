@@ -13,6 +13,13 @@
     </a>
     <a href="{%url 'dashboard:checkout'%}" class="btn btn-success font-weight-light mr-3 "> Checkout</a>
 </div>
+{% if messages %}
+    <ul class="messages list-inline text-{{request.session.color}}">
+    {% for message in messages %}
+        <li{% if message.tags %} class="ml-4 {{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
 <div class="row">
     <div class="leftsection col-3 bg-light pb-5 pt-3">
         <form id="searchForm" action="{%url 'dashboard:searchProducts'%}" method="post" class="form-inline">

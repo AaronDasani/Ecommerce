@@ -57,7 +57,8 @@ def proccess(request):
     
 def logoff(request):
     del request.session['user_id']
-    del request.session["productInfo"]
+    if "productInfo" in request.session:
+        del request.session["productInfo"]
     if "product_id" in request.session:
         del request.session['product_id']
         

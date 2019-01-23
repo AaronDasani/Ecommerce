@@ -27,15 +27,17 @@ def admin(request):
 
     orders_list=Order.objects.raw("SELECT * FROM dashboard_order GROUP BY order_id ORDER BY created_at DESC")  
 
+# the pagination works on Django 2.1 and above
+
     paginator = Paginator(orders_list, 3) 
     page = request.GET.get('page')
     orders = paginator.get_page(page)
-
-
+ 
     context={
         'orders':orders,
         'user':current_user
     }
+
 
     return render(request, "admin/adminDashboard.html",context)
 

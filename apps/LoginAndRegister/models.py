@@ -82,6 +82,10 @@ class UserManager(models.Manager):
             error.append("invalid email or password")
             return (False,error)
         
+        print(form['password'].encode())
+        print(User.password.encode())
+
+
         if bcrypt.checkpw(form['password'].encode(),User.password.encode()):
             return (True,User.id)
         else:
