@@ -32,7 +32,7 @@ def dashboard(request):
     # miscelleneous information to make the dashboard page better
     itemsInCart=User.objects.get(id=request.session['user_id']).cart.all().count() 
     userLevel=User.objects.get(id=request.session['user_id']).user_level
-    
+    print(dir(random))
     return render(request,"ecommerce/dashboard.html",{'itemsInCart':itemsInCart,'user_level':userLevel})
 
 
@@ -110,7 +110,8 @@ def payementProcess(request):
         return redirect(reverse("userLG:login"))
 
     cart=Cart.objects.filter(user_id=request.session['user_id'])
-    order_id=''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    # order_id=''.join(random.choices(string.ascii_uppercase + string.digits,k=10))
+    order_id=''.join(random.sample(string.ascii_uppercase + string.digits,k=10))
     print(">>>>>>>>>>>>>>>" ,order_id)
 
     for index in cart:
