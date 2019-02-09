@@ -20,23 +20,27 @@
                     <td>20640 65th Dr SE Seattle</td>
                     <td>${{index.totalCost}}</td>
                     <td>
-                        <select class="custom-select OrderStatus">
-                            {%if index.OrderStatus in "Order In"%}
-                                <option value="orderIn",data-orderId="{{index.order_id}}" selected >Order In</option>
-                                <option  value="shipped", data-orderId="{{index.order_id}}">Shipped</option>
-                                <option value="cancel",data-orderId="{{index.order_id}}">Cancelled</option>
-                            {%endif%}
-                            {%if index.OrderStatus in "shipped"%}
-                                <option value="orderIn",data-orderId="{{index.order_id}}">Order In</option>
-                                <option  value="shipped", data-orderId="{{index.order_id}}" selected >Shipped</option>
-                                <option value="cancel",data-orderId="{{index.order_id}}">Cancelled</option>
-                            {%endif%}
-                            {%if index.OrderStatus in "cancel"%}
-                                <option value="orderIn",data-orderId="{{index.order_id}}" >Order In</option>
-                                <option  value="shipped", data-orderId="{{index.order_id}}">Shipped</option>
-                                <option value="cancel",data-orderId="{{index.order_id}}" selected>Cancelled</option>
-                            {%endif%}
-                        </select>
+                        <form class="changeStatusForm" action="{%url 'adminDashboard:changingProductStatus'%}">
+                            {% csrf_token %}
+                            <select class="custom-select OrderStatus" name="order_status">
+                                {%if index.OrderStatus in "Order In"%}
+                                    <option value="orderIn" selected >Order In</option>
+                                    <option  value="shipped">Shipped</option>
+                                    <option value="cancel">Cancelled</option>
+                                {%endif%}
+                                {%if index.OrderStatus in "shipped"%}
+                                    <option value="orderIn">Order In</option>
+                                    <option  value="shipped" selected >Shipped</option>
+                                    <option value="cancel">Cancelled</option>
+                                {%endif%}
+                                {%if index.OrderStatus in "cancel"%}
+                                    <option value="orderIn" >Order In</option>
+                                    <option  value="shipped">Shipped</option>
+                                    <option value="cancel" selected>Cancelled</option>
+                                {%endif%}
+                            </select>
+                            <input type="hidden" name="order_id" value="{{index.order_id}}">
+                        </form>
                     </td>
                 </tr>
             {% endfor %}

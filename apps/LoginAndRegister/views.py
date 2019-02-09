@@ -4,9 +4,27 @@ from django.contrib import messages
 from .models import User
 # Create your views here.
 
+
+def decidingPage(request):
+     
+    return render(request,'logAndreg/decidingPage.html')
+def recruiterAccess(request):
+    try:
+        user=User.objects.get(user_level=2)
+    except:
+        user=User.objects.get(email="aaron@gmail.com")
+
+    request.session['user_id']=user.id
+    request.session['user_level']=user.user_level;
+
+    return redirect(reverse("dashboard:dashboard"))
+
+ 
+
 def home(request):
 
     return render(request,'logAndreg/home.html')
+
 
 def register(request):
      
@@ -22,13 +40,11 @@ def create(request):
         'lastname':request.POST['lastname'],
         'email':request.POST['email']
     }
-
-   
-
     if validateResponse(request,valid,response):
         del request.session['tempUserData']
 
-        request.session['user_id']=response
+        request.session['user_id']=response["user_id"]
+        request.session['user_level']=response["user_level"]
         request.session['color']="success"
         messages.success(request, "Successfully Registered")
         return redirect(reverse("dashboard:dashboard"))
@@ -49,14 +65,17 @@ def proccess(request):
         user_level=User.objects.get(id=response).user_level
         
         if user_level ==1:
+            request.session['user_level']=1
             return redirect(reverse("adminDashboard:admin"))
         else:
+            request.session['user_level']=user_level
             return redirect(reverse("dashboard:dashboard"))
     else:
         return redirect(reverse("userLG:login"))
     
 def logoff(request):
     del request.session['user_id']
+    del request.session['user_level']
     if "productInfo" in request.session:
         del request.session["productInfo"]
     if "product_id" in request.session:

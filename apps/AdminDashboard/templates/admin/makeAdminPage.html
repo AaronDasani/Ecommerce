@@ -1,0 +1,43 @@
+{%extends './AdminLayout.html'%}
+
+{%block head%}
+    <title>Make New Admin</title>
+{%endblock head%}
+
+
+{%block content%}
+
+    
+    <div class="container mt-5">
+        
+        {%for user in allUsers%}
+            <div class="user bg-dark text-light p-3 mb-4">
+                <div class="row">
+                    <div class="col-4 text-left font-weight-light">
+                        <h5>{{user.first_name}} {{user.last_name}}</h5>
+                    </div>
+                    <div class="col-8 text-right font-weight-light">
+                        <form action="{%url 'adminDashboard:makeAdminProcess'%}" method="post">
+                            {% csrf_token %}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="user_level" id="admin0" value=0>
+                                <label class="form-check-label" for="admin0">0</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="user_level" id="admin1" value=1>
+                                <label class="form-check-label" for="admin1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="user_level" id="admin2" value=2>
+                                <label class="form-check-label" for="admin2">2</label>
+                            </div>
+                            <input type="hidden" name="user_id" value="{{user.id}}">
+                            <button type="submit" class="btn btn-small btn-info">Update User Level</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {%endfor%}
+    </div>
+
+{%endblock content%}

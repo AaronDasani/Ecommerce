@@ -32,7 +32,7 @@ def dashboard(request):
     # miscelleneous information to make the dashboard page better
     itemsInCart=User.objects.get(id=request.session['user_id']).cart.all().count() 
     userLevel=User.objects.get(id=request.session['user_id']).user_level
-    print(dir(random))
+    # print(dir(random))
     return render(request,"ecommerce/dashboard.html",{'itemsInCart':itemsInCart,'user_level':userLevel})
 
 

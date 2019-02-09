@@ -6,10 +6,13 @@
 
 
 {%block content%}
-
+<div id="bodySection">
+    <div class="text-center col-3 messageBox">
+        <small class="bg-warning text-light shadow p-2">Only Super Admin can visit this Page</small>
+    </div>
     <h1 class="mt-4 text-center font-weight-light adminName"> Hello {{user.first_name}} <small class="bg-success rounded text-white pl-1 pr-1">Admin</small>  </h1>
     <hr>
-    <form id="searchForm" action="{%url 'adminDashboard:searchOrders'%}" method="post" class="mb-4 mt-3">
+    <form id="searchFormOrderList" action="{%url 'adminDashboard:searchOrders'%}" method="post" class="mb-4 mt-3">
         {% csrf_token %}
         <div class="row">
             <div class="col-10 form-inline">
@@ -39,23 +42,27 @@
                             <td>20640 65th Dr SE Seattle</td>
                             <td>${{index.totalCost}}</td>
                             <td>
-                                <select class="custom-select OrderStatus">
-                                    {%if index.OrderStatus in "Order In"%}
-                                        <option value="orderIn",data-orderId="{{index.order_id}}" selected >Order In</option>
-                                        <option  value="shipped", data-orderId="{{index.order_id}}">Shipped</option>
-                                        <option value="cancel",data-orderId="{{index.order_id}}">Cancelled</option>
-                                    {%endif%}
-                                    {%if index.OrderStatus in "shipped"%}
-                                        <option value="orderIn",data-orderId="{{index.order_id}}">Order In</option>
-                                        <option  value="shipped", data-orderId="{{index.order_id}}" selected >Shipped</option>
-                                        <option value="cancel",data-orderId="{{index.order_id}}">Cancelled</option>
-                                    {%endif%}
-                                    {%if index.OrderStatus in "cancel"%}
-                                        <option value="orderIn",data-orderId="{{index.order_id}}" >Order In</option>
-                                        <option  value="shipped", data-orderId="{{index.order_id}}">Shipped</option>
-                                        <option value="cancel",data-orderId="{{index.order_id}}" selected>Cancelled</option>
-                                    {%endif%}
-                                </select>
+                                <form class="changeStatusForm" action="{%url 'adminDashboard:changingProductStatus'%}">
+                                    {% csrf_token %}
+                                    <select class="custom-select OrderStatus" name="order_status">
+                                        {%if index.OrderStatus in "Order In"%}
+                                            <option value="orderIn" selected >Order In</option>
+                                            <option  value="shipped">Shipped</option>
+                                            <option value="cancel">Cancelled</option>
+                                        {%endif%}
+                                        {%if index.OrderStatus in "shipped"%}
+                                            <option value="orderIn">Order In</option>
+                                            <option  value="shipped" selected >Shipped</option>
+                                            <option value="cancel">Cancelled</option>
+                                        {%endif%}
+                                        {%if index.OrderStatus in "cancel"%}
+                                            <option value="orderIn" >Order In</option>
+                                            <option  value="shipped">Shipped</option>
+                                            <option value="cancel" selected>Cancelled</option>
+                                        {%endif%}
+                                    </select>
+                                    <input type="hidden" name="order_id" value="{{index.order_id}}">
+                                </form>
                             </td>
                         </tr>
                     {% endfor %}
@@ -92,37 +99,10 @@
             </span>
         </div>
     </div>
-    
+</div>
     <script>
 
-        $( ".OrderStatus" ).change(function() {
-            
-            $.ajax({
-                method:"POST",
-                url:"{%url 'adminDashboard:changingProductStatus'%}",
-                data:{"select":$(this).val(),"orderId": $(this).find('option:selected').attr("data-orderId"),csrfmiddlewaretoken: '{{ csrf_token }}'},
-                success:function(response){
-                    console.log(response);
-                }
-            })
-            
-        })
-        
-        $('#searchForm').keyup(function(e) {
-            e.preventDefault()
-            $.ajax({
-               method: "POST",
-               url: $("#searchForm").attr("action"),
-               data: $('#searchForm').serialize(),
-               success: function(response) {
-                console.log('received response:', response);
-                    
-               $("#orderlist").html(response)
-            }
-
-            });
-
-        });
+       
         
     </script>
 {%endblock content%}

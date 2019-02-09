@@ -71,7 +71,7 @@ class UserManager(models.Manager):
                 
             hashPassword=bcrypt.hashpw(form['password'].encode(),bcrypt.gensalt())
             Users=self.create(first_name=form['firstname'],last_name=form['lastname'], email=form['email'],password=hashPassword, birthday=form['birthday'],user_level=user_level,description="I am a programmer and ......")
-            current_user=Users.id
+            current_user={"user_id":Users.id, "user_level":user_level}
             return (True,current_user)
 
     def loginValidation(self,form):

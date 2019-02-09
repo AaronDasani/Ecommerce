@@ -9,7 +9,7 @@
         <td>{{index.inventory.inventory}}</td>
         <td>{{index.inventory.quantitySold}}</td>
         <td>
-            <a data-editproductid='{{index.id}}' data-toggle="modal" data-target="#EditProduct" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
+            <a href="{%url 'adminDashboard:fetchProductInfo'%}"  data-editproductid='{{index.id}}' data-toggle="modal" data-target="#EditProduct" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
             <a  data-productid='{{index.id}}' data-toggle="modal" data-target="#DeleteProduct" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</a>
 
         </td>

@@ -17,9 +17,10 @@ urlpatterns=[
     url(r'^edit/$',views.edit, name='edit'),
     url(r'^fetchProductInfo/$',views.fetchProductInfo, name='fetchProductInfo'),
     url(r'^changingProductStatus/$',views.changingProductStatus, name='changingProductStatus'),
+    url(r'^makeAdminPage/$',views.makeAdminPage, name='makeAdminPage'),
+    url(r'^makeAdminProcess/$',views.makeAdminProcess, name='makeAdminProcess')
 
-    # url(r'^change_paged/$',views.ajax_pagination, name='ajax_pagination')
- 
+    
 
 ]
 # +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

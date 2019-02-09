@@ -18,8 +18,11 @@
                 <div class="row flex-nowrap justify-content-between align-items-center">
                     <div class="col-4 pt-1">
                         {% ifequal user_level 1%}
-                        <a class=" btn btn-outline-warning font-weight-light" href="{%url 'adminDashboard:admin'%}">Admin</a>
+                            <a class=" btn btn-outline-warning font-weight-light" href="{%url 'adminDashboard:admin'%}">Admin</a>
+                        {% endifequal %}
 
+                        {% ifequal user_level 2%}
+                            <a class=" btn btn-outline-warning font-weight-light" href="{%url 'adminDashboard:admin'%}">Admin</a>
                         {% else %}
                             <a class="text-muted brand" href="{%url 'dashboard:dashboard'%}">MADD E-Commerce</a>
                         {% endifequal %}

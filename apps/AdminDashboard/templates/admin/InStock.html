@@ -2,8 +2,7 @@
 
 {%block head%}
     <title>Products</title>
-    {%load static%}
-    <script src="{%static 'admin/script/adminScript.js'%}"></script>
+
 {%endblock head%}
 
 
@@ -17,7 +16,7 @@
         </ul>
     {% endif %}
     <div class="row mb-4" style="height:40px;">
-        <form id="searchForm" action="{%url 'adminDashboard:searchProduct'%}" method="post" class="mb-4 mt-3 col-9 form-inline">
+        <form id="searchFormProduct" action="{%url 'adminDashboard:searchProduct'%}" method="post" class="mb-4 mt-3 col-9 form-inline">
                 {% csrf_token %}
                 <input class="form-control " type="text"  id="searchProduct" name="searchProduct" placeholder="Search.." aria-label="Search">
         </form>
@@ -45,7 +44,7 @@
                     <td>{{index.inventory.inventory}}</td>
                     <td>{{index.inventory.quantitySold}}</td>
                     <td>
-                        <a data-editproductid='{{index.id}}' data-toggle="modal" data-target="#EditProduct" class="btn btn-warning btn-sm editBTN"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="{%url 'adminDashboard:fetchProductInfo'%}" data-editproductid='{{index.id}}' data-toggle="modal" data-target="#EditProduct" class="btn btn-warning btn-sm editBTN"><i class="fas fa-edit"></i> Edit</a>
                         <a  data-productid='{{index.id}}' data-toggle="modal" data-target="#DeleteProduct" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</a>
                     </td>
         
@@ -233,76 +232,6 @@
         </div>
     </div>
 </div>
-<script>
-    $('#searchForm').keyup(function(e) {
-        e.preventDefault()
-        $.ajax({
-            method: "POST",
-            url: $("#searchForm").attr("action"),
-            data: $('#searchForm').serialize(),
-            success: function(response) {
-            console.log('received response:', response);
-                
-            $("#stocks").html(response)
-        }
 
-        });
 
-    });
-
-     //delete product
-    $("#deleteProduct").submit(function(e){
-        e.preventDefault();
-       submitFormData($("#deleteProduct").serialize(),$("#deleteProduct").attr("action"));
-       
-    });
-    function submitFormData(data,url){
-        $.ajax({
-            method:"POST",
-            data:data,
-            url:url,
-            success:function(response){
-                console.log('received response:', response);
-                $("#stocks").html(response)
-                $('.closebutton').click();
-
-                
-            }
-        });
-    }
-    $(".editBTN").click(function(){
-        console.log("clicked")
-        $.ajax({ 
-            method:"GET",
-            data:{
-                product_id:$(this).data("editproductid")
-            },
-            url:"{%url 'adminDashboard:fetchProductInfo'%}",
-            success:function(response){
-                console.log('received response:', response);
-                $("#editInfo").html(response)
-                const editrealFileBtn=document.getElementById("editreal-file");
-                const editcustomButton=document.getElementById("editcustom-button");
-                const editcustomText=document.getElementById("editcustom-text");
-            
-                editcustomButton.addEventListener("click",function(){
-                    editrealFileBtn.click();
-            
-                });
-                editrealFileBtn.addEventListener("change",function(){
-                    if (editrealFileBtn.value) {
-                        editcustomText.innerHTML=editrealFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-            
-                    }
-                    else{
-                        editcustomText.innerHTML="No image Chosen yet !"
-                    }
-                })
-            }
-            
-        });
-       
-    
-    });
-</script>
 {%endblock content%}

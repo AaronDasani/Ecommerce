@@ -12,16 +12,17 @@ import json
 
 def admin(request):
     # if there is no 'user_id' in request.session send the user to the login page
-    if 'user_id' not in request.session:
+    if 'user_id' not in request.session or 'user_level' not in request.session:
         return redirect(reverse("userLG:login"))
 
+    
     # if we get an error trying to get the user_level, send the user to the login page
     try:
         current_user=User.objects.get(id=request.session['user_id'])  
     except:
         return redirect(reverse("userLG:login"))
-    # if user_level not 1, [number 1 being the admin] send the user to the login page
-    if current_user.user_level  != 1:
+    # if user_level is less than 1, [number 1 being the admin] send the user to the login page
+    if current_user.user_level  < 1:
         return redirect(reverse("userLG:login"))
 
 
@@ -41,8 +42,41 @@ def admin(request):
         'orders':orders_list,
         'user':current_user
     }
+    print(request.session["user_level"])
+    print(request.session["user_id"])
 
     return render(request, "admin/adminDashboard.html",context)
+
+# Make Admin Page
+
+def makeAdminPage(request):
+    if 'user_id' not in request.session or 'user_level' not in request.session:
+        return redirect(reverse("userLG:login"))
+    if request.session["user_level"]>1:
+        return HttpResponse("NotAllowed")
+    
+    allUsers=User.objects.all()
+    context={
+        'allUsers':allUsers
+    }
+    return render(request, "admin/makeAdminPage.html",context)
+
+# Make Admin Process
+def makeAdminProcess(request):
+    if request.session["user_level"]>1:
+        return redirect(reverse("adminDashboard:admin"))
+    print(request.POST)
+    print(request.POST['user_id'])
+    updateUser=User.objects.get(id=request.POST['user_id'])
+    if updateUser.user_level==request.POST['user_level']:
+        return redirect(reverse("adminDashboard:makeAdminPage"))
+    else:
+        updateUser.user_level=int(request.POST['user_level'])
+        updateUser.save()
+    
+    return redirect(reverse("adminDashboard:makeAdminPage"))
+
+
 
 
 def searchOrders(request):
@@ -180,13 +214,12 @@ def delete(request):
     return render(request,"admin/inStockProduct.html",context)
 
 def changingProductStatus(request):
-    print(request.POST)
-    status=request.POST["select"]
-    order_id=request.POST["orderId"]
+    # print(request.POST)
+    order_id=request.POST["order_id"]
 
-    Order.objects.filter(order_id=order_id).update(OrderStatus=status)
+    Order.objects.filter(order_id=order_id).update(OrderStatus=request.POST["order_status"])
 
-    return JsonResponse({'status':status})
+    return JsonResponse({"order_id":order_id})
 
 
 def searchProduct(request):

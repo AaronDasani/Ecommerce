@@ -1,0 +1,222 @@
+
+
+
+/* ---------Start Recruiter or user page effects-------- */
+.LoginAndRegisterBg{
+    background-image: none !important;
+    padding: 0 !important;
+
+}
+
+
+#wrapper{
+    margin:0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #240229;
+}
+
+.loader{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(#14ffe9, #ffeb3b, #ff00e0);
+    animation: animate 0.5s linear infinite;
+   
+
+}
+@keyframes animate
+{
+    0%
+    {
+        transform:rotate(0deg);
+    }
+    100%
+    {
+        transform:rotate(360deg);
+    }
+}
+.loader span{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(#14ffe9, #ffeb3b, #ff00e0);
+    transform: translateZ(0);
+
+}
+
+.loader span:nth-child(1)
+{
+    filter: blur(5px);
+}
+.loader span:nth-child(2)
+{
+    filter: blur(10px);
+}
+.loader span:nth-child(3)
+{
+    filter: blur(25px);
+
+}
+.loader span:nth-child(4)
+{
+    filter: blur(50px);
+}
+.loader::after
+{
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    background: #240229;
+    border-radius: 50%;
+ 
+
+}
+
+.pageToGo{
+ 
+    position: absolute;
+    top: 40vh;
+    width: 80%;
+    height: 100px;
+    color: white;
+}
+.pageToGo a{
+    text-align: center;
+    padding: 40px;
+
+}
+.pageToGo .userBTN a:hover{
+    background: -webkit-linear-gradient(to left, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.pageToGo a:hover{
+    background: #c31432;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    text-decoration: none;
+
+    padding: 50px;
+    transition-duration: 0.6s;
+    
+}
+.rightArrow{
+    position: absolute;
+    left: 80%;
+    top: 45%;
+}
+svg {
+    width: 200px;
+    height: 200px; 
+    margin: 0 auto;
+    transform: rotate(180deg);
+
+}
+.draw-arrow {  
+    stroke-width: 1;
+    stroke: rgb(201, 201, 201); 
+    fill: none;
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400; 
+    animation-duration: 2.0s;
+    animation-fill-mode: forwards;
+    animation-name: draw;
+    animation-delay: 0.5s;
+}
+.tail-1 {
+animation-delay: 1s;
+}
+.tail-2 {
+animation-delay: 1.2s;
+}
+
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+
+}
+
+
+/* No Login Requried Text effect */
+svg+div small{
+    color: #240229;
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-size: 17px;
+
+    animation: appear 2.0s 1.3s forwards;
+}
+@keyframes appear
+{
+   
+    to{
+        color: #d1d1d1;        
+    }
+}
+svg+div{
+    animation: shake 1s linear 1.5s infinite;
+}
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+  /* --------- End Recruiter or user page effects-------- */
+  
+
+@media screen and (max-width: 600px) {
+
+    .pageToGo{
+        position: absolute;
+        top: 20vh;
+        width: 80%;
+        height: 100px;
+        color: white;
+    }
+    .pageToGo a{
+        padding: 10px;
+    
+    }
+
+    .pageToGo a:hover{
+        padding: 20px;
+    }
+    svg {
+        width: 100px;
+        height: 100px; 
+        transform: rotate(185deg);
+    
+    }
+    .rightArrow{
+        left: 68% !important;
+        top: 24% !important;
+    }
+    svg+div small{
+        font-size: 15px;
+
+    }
+
+}
+@media screen and (max-width: 880px) {
+    .rightArrow{
+        left: 75%;
+        top: 45%;
+    }
+}

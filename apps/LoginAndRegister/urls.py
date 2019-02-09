@@ -4,7 +4,9 @@ from .import views
 app_name='LoginAndRegister'
 
 urlpatterns=[
-    url(r'^$',views.home,name='home'),
+    url(r'^$',views.decidingPage,name='decidingPage'),
+    url(r'^recruiterAccess/$',views.recruiterAccess,name='recruiterAccess'),
+    url(r'^home/$',views.home,name='home'),
     url(r'^register/$',views.register,name='registration'),
     url(r'^create/$',views.create,name='create'),
     url(r'^login/$',views.login,name='login'),
