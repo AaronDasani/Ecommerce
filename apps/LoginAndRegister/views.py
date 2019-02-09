@@ -10,7 +10,8 @@ def decidingPage(request):
     return render(request,'logAndreg/decidingPage.html')
 def recruiterAccess(request):
     try:
-        user=User.objects.get(user_level=2)
+        listOfuser=User.objects.filter(user_level=2)
+        user=listOfuser[0]
     except:
         user=User.objects.get(email="aaron@gmail.com")
 
