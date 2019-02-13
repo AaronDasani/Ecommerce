@@ -135,8 +135,8 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=94608000',
 }
 
-# AWS_STORAGE_BUCKET_NAME = #bucket name
-# AWS_S3_REGION_NAME =  # e.g. us-east-2
+AWS_STORAGE_BUCKET_NAME = 'maadecommerce'
+AWS_S3_REGION_NAME = 'us-east-2'  # e.g. us-east-2
 # AWS_ACCESS_KEY_ID = #access key_id
 # AWS_SECRET_ACCESS_KEY = #secret access key
 
